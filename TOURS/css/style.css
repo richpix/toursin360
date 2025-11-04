@@ -1,0 +1,515 @@
+
+
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background-color: #000;
+}
+
+#tour {
+  width: 100%;
+  height: 100vh;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+#tour-header  {
+  position: absolute;
+  z-index: 99999;
+  top: 15px;
+  left: 45px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4); /* fondo semi-transparente */
+  -webkit-backdrop-filter: blur(8px); /* efecto glass */
+  backdrop-filter: blur(8px); /* efecto glass */
+  transform-origin: center; /* importante para que escale desde el centro */
+  padding: 8px 15px;
+  border-radius: 50px;
+}
+
+#tour-header img {
+  height: 40px;
+  width: auto;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+#tour-header span {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: sans-serif;
+}
+
+/* Ejemplo de hotspot personalizado */
+.hotspot-flecha {
+  background-image: url('https://360tours.com.mx/wp-content/uploads/2025/10/flecha.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 26px;
+  height: 26px;
+  border: none;
+}
+
+
+/* Estilo glass blur para los hotspots de flecha */
+.hotspot-arrow {
+  width: 30px;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.4); /* semi-transparente */
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  
+}
+
+.hotspot-arrow:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgb(0, 0, 0);
+}
+
+.hotspot-arrow img {
+  width: 20px;
+  height: 20px;
+  filter: invert(1); /* ajusta según color de flecha */
+}
+
+/* Oculta el cuadro de info "about" al dar clic derecho */
+.pnlm-about-msg {
+  display: none !important;
+}
+/* Oculta la caja de carga (loading box) que contiene el mensaje */
+.pnlm-load-box {
+    display: none !important;
+}
+
+/* Opcional: Si quieres ocultar el contenedor completo, aunque el de arriba suele ser suficiente */
+.pnlm-loading {
+    display: none !important; /* oculta completamente el loading nativo */
+}
+
+/* Oculta el cuadro de info de la imagen */
+.pnlm-loading-msg {
+    display: none !important;
+}
+
+
+.pnlm-container canvas {
+  background-color: transparent !important; /* evita el fondo negro */
+}
+
+
+/*Modal de bienvenida con fade */
+.bienvenida-modal {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.bienvenida-modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.bienvenida-modal h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+}
+
+.bienvenida-modal p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.cerrar {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.menu-flotante {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 9999;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  padding: 15px 20px;
+  border-radius: 10px;
+  display: none;
+  font-family: sans-serif;
+  font-size: 18px;
+}
+
+.menu-flotante .cerrar {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 22px;
+}
+/* ======= MENU DE ESCENAS DARK GLASS iOS STYLE ======= */
+.scene-menu {
+  position: fixed; /* antes era absolute */
+  bottom: 80px;    /* igual que tu toggle */
+  left: 50%;       /* para centrar sobre la pantalla */
+  transform: translateX(-50%) scale(0); /* inicio cerrado */
+  background: rgba(0,0,0,0.4);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-radius: 50px;
+  padding: 14px 22px;
+  display: flex;
+  align-items: flex-start;
+  overflow-x: auto;
+  -ms-overflow-style: none;  /* IE y Edge */
+  scrollbar-width: none;     /* Firefox */
+  max-width: 50%;
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  gap: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  z-index: 9998;
+  transition: transform 0.5s cubic-bezier(0.68,-0.55,0.265,1.55), opacity 0.5s ease;
+  opacity: 0;
+}
+
+.scene-menu::-webkit-scrollbar {
+  display: none;           /* Chrome, Safari y Edge */
+}
+
+/* Abrir */
+.scene-menu.visible {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
+
+.scene-thumb-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 110px;
+}
+
+.scene-thumb {
+  width: 95px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 14px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.scene-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(0,0,0,0.5);
+}
+
+.scene-label {
+  margin-top: 6px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+  text-shadow: 0 0 4px rgba(0,0,0,0.7);
+}
+
+.scene-menu-toggle { /*Boton de abrir menu*/
+  position: absolute;
+  bottom: calc(3vh + env(safe-area-inset-bottom, 0));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background: rgba(20,20,25,0.5);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-radius: 40px;
+  padding: 12px 18px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 18px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  transition: background 0.3s ease;
+}
+
+.scene-menu-toggle:hover {
+  background: rgba(20,20,25,0.65);
+}
+
+/*Identificadopr de escenas */
+.pnlm-title-box { 
+  display: none !important;
+}
+
+.pmnl-author-box {
+  display: none !important;
+}
+
+/* 🔹 Ocultar los controles originales de Pannellum */
+.pnlm-controls,
+.pnlm-fullscreen-toggle-button,
+.pnlm-zoom-in,
+.pnlm-zoom-out,
+.pnlm-compass,
+.pnlm-orientation-button {
+  display: none !important;
+}
+
+/* Contenedor general para poder posicionar los botones */
+#customControlsWrapper {
+  position: fixed;
+  top: 50%;
+  right: 18px;
+  transform-origin: center; /* escalar desde el centro */
+  transform: translateY(-50%) scale(0.75); /* inicia reducido */
+  opacity: 1; /* 🔹 agregado: hace posible la animación de entrada */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.45s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+              opacity 0.3s ease-in-out;
+  z-index: 9999;
+}
+
+
+/* Contenedor glass oscuro de los botones */
+#customControlsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.4);
+  -webkit-backdrop-filter: blur(8px); /* efecto glass */
+  backdrop-filter: blur(8px); /* efecto glass */
+  border-radius: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Botones solo con símbolos, sin fondo ni borde */
+#customControlsContainer button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#customControlsContainer button:hover {
+  transform: scale(1.2);
+  color: #FB2056; /* opcional: cambio de color al pasar el mouse */
+}
+
+/* Botón X separado */
+#closeBtn {
+  position: fixed;
+  z-index: 99999;
+  top: 5%;
+  right: 2%;
+  background: rgba(0, 0, 0, 0.4); /* fondo semi-transparente */
+  -webkit-backdrop-filter: blur(8px); /* efecto glass */
+  backdrop-filter: blur(8px); /* efecto glass */
+  transform-origin: center; /* importante para que escale desde el centro */
+  transform: translateY(-50%) scale(0.75); /* 🔹 reduce al 75% del tamaño original */
+  border: none;
+  border-radius: 100%;
+  color: #fff;
+  font-size: 22px;
+  padding: 8px 12px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+#closeBtn:hover {
+  background: rgba(255, 0, 0, 0.4);
+}
+ 
+/* 📱 ======= CONTROLES MÓVILES (glass blur) ======= */
+
+
+/* Botón flotante (+) solo visible en móvil */
+#mobileControlsToggle {
+  position: fixed;
+  top: 63%; /* posicion vertical */
+  right: 17px; /* margen desde la derecha */
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.4); /* fondo semi-transparente */
+  -webkit-backdrop-filter: blur(8px); /* efecto glass */
+  backdrop-filter: blur(8px); /* efecto glass */
+  transform-origin: center; /* importante para que escale desde el centro */
+  transform: translateY(-50%) scale(0.75); /* 🔹 reduce al 75% del tamaño original */
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 30px; /* tamaño visible */
+  cursor: pointer;
+  z-index: 10000;
+  display: none; /* 🔹 por defecto oculto */
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+/* Solo visible en pantallas móviles */
+@media (max-width: 768px) {
+  #mobileControlsToggle {
+    display: flex; /* 🔹 ahora sí se muestra */
+  }
+}
+/* Animación ligera al presionar */
+#mobileControlsToggle:active {
+  transform: translateY(-50%) scale(0.9);
+}
+
+/* En pantallas móviles: ocultamos los controles y mostramos el botón + */
+/* 🔹 En móvil inicia oculto */
+@media (max-width: 768px) {
+  #customControlsWrapper {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.1);
+    pointer-events: none;
+  }
+  #customControlsWrapper.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+/* ======= ANIMACIÓN TIPO WINDOWS 7 ======= */
+@keyframes shrinkToButton {
+  0% {
+    opacity: 1;
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0) translate(80px, 80px);
+  }
+}
+/* Animación de abrir para controles móviles */
+@keyframes expandFromButton {
+  0% {
+    opacity: 0;
+    transform: scale(0); /* inicia desde el centro del botón */
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1); /* tamaño normal */
+  }
+}
+
+/* Animación de cerrar para controles móviles */
+@keyframes shrinkToButton {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+
+/* 🔹 Estado visible */
+#customControlsWrapper.active {
+  transform: translateY(-50%) scale(.75); /* tamaño version movil */
+  opacity: 1;
+}
+
+/* ======= ANIMACIÓN TIPO WINDOWS 7 PARA MENÚ DE ESCENAS ======= */
+@keyframes shrinkSceneMenu {
+  0% { opacity: 1; transform: scale(1) translate(0,0); }
+  100% { opacity: 0; transform: scale(0) translate(0, 50px); }
+}
+
+@keyframes expandSceneMenu {
+  0% { opacity: 0; transform: scale(0) translate(0, 50px); }
+  100% { opacity: 1; transform: scale(1) translate(0,0); }
+}
+
+.scene-menu.animating {
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  transform-origin: bottom center;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+
+
+/*Tablets*/
+
+@media (max-width: 1024px) {
+  .scene-menu-toggle {
+   bottom: calc(60px + env(safe-area-inset-bottom, 0));
+    
+  }
+   .scene-menu {
+    bottom: calc(140px + env(safe-area-inset-bottom, 0)); /* 👈 súbelo un poco */
+  }
+}
+
+
+
+
+/* Ajuste específico para iPhones Safari */
+@supports (-webkit-touch-callout: none) {
+  @media (max-width: 768px) {
+    .scene-menu-toggle {
+      bottom: calc(12vh + env(safe-area-inset-bottom, 20px));
+    }
+     .scene-menu {
+    /*  Subir el scene menu por encima del boton */
+      bottom: calc(20vh + env(safe-area-inset-bottom, 20px)); /* solo iPhones */
+    }
+  }
+}
+
+
+
+
+/*Ajusatar tamaño del boton en pantallas pequeñas*/
+@media (max-width:768px) {
+  #mobileControlsToggle{
+  font-size: 35px;
+  }
+   #customControlsContainer button{
+    font-size: 35px;
+   }
+  #customControlsWrapper{
+    top: 45%;
+  }
+}
+
+
+
+
+
+
