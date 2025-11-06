@@ -25,7 +25,7 @@ const escenasPortafolio = {
     "title": "Jardin del arte 2", //titulo de escena que aparecera en elñ menu escenas
     "type": "equirectangular",
 
-    "panorama": "../imagenes/portafolio1/IMG_20251101_172120_00_008.jpg",
+    "panorama": "../imagenes/portafolio1/IMG_20251101_172120_00_008.webp",
    "preload": true, // 🔹 Esto activa preload para esta escena
    // --Configuracion de donde mira la camara al cambiar de escena-
           "yaw": 250,  
@@ -68,7 +68,7 @@ const escenasPortafolio = {
    // --Configuracion de donde mira la camara al cambiar de escena-
           "yaw": -19,  
           "pitch": -5,
-          "hfov": 110, //zoom--- max 120
+         
           //-------------------------------
     "hotSpots": [
        crearHotspot(174,-5,"esce3")
