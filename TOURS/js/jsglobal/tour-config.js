@@ -15,6 +15,9 @@ function crearVisor(idContenedor, configuracionEscenas, primeraEscena) {
       "sceneFadeDuration": 1000,
       "compass": false,
       //"author": "Ricardo Pool"
+     hfov: 110,          // Campo de visión inicial
+    minHfov: 50,        // 🔒 Zoom máximo (más cerca)
+    maxHfov: 120,       // 🔒 Zoom mínimo (más lejos)
     },
     "scenes": configuracionEscenas
   });

@@ -9,7 +9,7 @@ const escenasPortafolio = {
    // --Configuracion de donde mira la camara al cambiar de escena-
           "yaw": 250,  
           "pitch": -5,
-          "hfov": 110, //zoom--- max 120
+         
           //-------------------------------
     "hotSpots": [
        
@@ -25,12 +25,12 @@ const escenasPortafolio = {
     "title": "Jardin del arte 2", //titulo de escena que aparecera en elñ menu escenas
     "type": "equirectangular",
 
-    "panorama": "../imagenes/portafolio1/IMG_20251101_172120_00_008.webp",
+    "panorama": "../imagenes/portafolio1/IMG_20251101_172120_00_008.jpg",
    "preload": true, // 🔹 Esto activa preload para esta escena
    // --Configuracion de donde mira la camara al cambiar de escena-
           "yaw": 250,  
           "pitch": -5,
-          "hfov": 110, //zoom--- max 120
+         
           //-------------------------------
     "hotSpots": [
        
@@ -49,7 +49,7 @@ const escenasPortafolio = {
    // --Configuracion de donde mira la camara al cambiar de escena-
           "yaw": -160,  
           "pitch": -5,
-          "hfov": 110, //zoom--- max 120
+         
           //-------------------------------
     "hotSpots": [
        
@@ -86,7 +86,7 @@ const escenasPortafolio = {
    // --Configuracion de donde mira la camara al cambiar de escena-
           "yaw": -83,  
           "pitch": -5,
-          "hfov": 110, //zoom--- max 120
+         
           //-------------------------------
     "hotSpots": [
        
@@ -105,7 +105,7 @@ const escenasPortafolio = {
    // --Configuracion de donde mira la camara al cambiar de escena-
           "yaw": 7,  
           "pitch": -5,
-          "hfov": 110, //zoom--- max 120
+         
           //-------------------------------
     "hotSpots": [
        
@@ -124,7 +124,7 @@ const escenasPortafolio = {
    // --Configuracion de donde mira la camara al cambiar de escena-
           "yaw": 0,  
           "pitch": -5,
-          "hfov": 110, //zoom--- max 120
+        
           //-------------------------------
     "hotSpots": [
        
@@ -144,7 +144,7 @@ const escenasPortafolio = {
    // --Configuracion de donde mira la camara al cambiar de escena-
           "yaw": 1,  
           "pitch": -5,
-          "hfov": 110, //zoom--- max 120
+         
           //-------------------------------
     "hotSpots": [
        
@@ -164,7 +164,7 @@ const escenasPortafolio = {
    // --Configuracion de donde mira la camara al cambiar de escena-
           "yaw": -44,  
           "pitch": -5,
-          "hfov": 110, //zoom--- max 120
+         
           //-------------------------------
     "hotSpots": [
        
@@ -184,7 +184,7 @@ const escenasPortafolio = {
    // --Configuracion de donde mira la camara al cambiar de escena-
           "yaw": -62,  
           "pitch": -5,
-          "hfov": 110, //zoom--- max 120
+          
           //-------------------------------
     "hotSpots": [
        
